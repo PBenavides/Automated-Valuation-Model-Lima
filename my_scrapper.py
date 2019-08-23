@@ -88,6 +88,7 @@ def obtain_features_to_dict(soup_cada_casa,n_=0 ):  #Debería poner el n_ afuera
     obj_features_dicc = soup_cada_casa.find('section',{'class':'feature'})
     if obj_features_dicc == None:
         casa_interna_iterada = {}
+        casa_interna_iterada['NoTieneData'] = 'SinValor'
     else:
         obj_features_dicc = obj_features_dicc.find_all('section') #Para cada casa selecciono su section
         n_ += 1 #A lo mejor es importante el número de casa
@@ -101,6 +102,7 @@ def obtain_features_to_dict(soup_cada_casa,n_=0 ):  #Debería poner el n_ afuera
     dict_feature_all_casas['Casa'+str(n_)] = casa_interna_iterada #Mi diccionario de diccionarios {'Casa1:{'Servicios': [],...}
     fill_nan_vals_dict(dict_feature_all_casas)
     return dict_feature_all_casas #Me retorna el diccionario de diccionarios
+
 dict_property_details = {}
 def dict_property_info(soup_cada_casa, u_=0):
     global dict_property_details #A un dict de afuera
