@@ -1,31 +1,45 @@
 # -*- coding: utf-8 -*-
 """
-Editor de Spyder
-
-Este es un archivo temporal.
+Este es un scraper para la página Urbania.pe
+La información obtenida se usará con fines meramente académicos. 
+Hecho por @PBenavides
 """
 import pandas as pd
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 import requests
+pd.set_option('display.max_columns', None)
+
+#Llamaremos lista_links a la lista que contiene todas las páginas generales de Urbania
 
 lista_links = []
-for i in range(1,553):
+for i in range(1,559):
     link = 'https://urbania.pe/buscar/venta-de-casas?page='+str(i)
     lista_links.append(link)
 
-all_internal_link = []
+#LLameremos all_internal_link a los links de cada casas en específico
 def extract_all_internal_links(lista_links):
-    global all_internal_link
-    for link in tqdm(lista_links):
-        response = requests.get(link)
-        soup = BeautifulSoup(response.text, "html.parser")
-        internal_links = ['https://urbania.pe' + link.attrs['href'] 
-                          for link in soup.find('div',{'class':'b-card-wrap js-card-list'}).find_all('a')]
-        all_internal_link = all_internal_link + internal_links
+    all_internal_link = []
+    for link in tqdm(lista_links): #Para cada link en la lista_links
+        response = requests.get(link) #Hago el request
+        soup = BeautifulSoup(response.text, "html.parser") #Creo el objeto 
+        internal_links = ['https://urbania.pe' + link_casa.attrs['href'] 
+                          for link_casa in soup.find('div',{'class':'b-card-wrap js-card-list'}).find_all('a')]
+#        Encuentro cada link de cada casa... 
+        all_internal_link = all_internal_link + internal_links #Sumo los links que encontré a la lista general.
     return all_internal_link
 
-#all_internal_link = extract_all_internal_links(lista_links)
+def dict_casas_info(soup_cada_casa, i_ = 0):
+    obj_dicc = soup_cada_casa.find('div',{'class':"b-leading-data-property u-flex-wrap"}).find_all(
+            'div',{'class':"b-leading-data-service"}) 
+    dict_casa_iter = {}
+    for iter_ in obj_dicc: #Para cada par de datos (q serían keys & values)
+        a = iter_.find_all('p')[0].text #Bótame el texto primero (key)
+        b = iter_.find_all('p')[1].text #Bótame el texto segundo (value)
+        dict_casa_iter[a] = b
+    global dict_all_casas
+    dict_all_casas['Casa'+str(i_)] = dict_casa_iter
+    return dict_all_casas  
 
 #LLena todos los valores nulos del diccionario para que se muestren en el dataframe
 def fill_nan_vals_dict(dictionary):
@@ -34,6 +48,7 @@ def fill_nan_vals_dict(dictionary):
             dict_per_house['NoTieneAlgunDatoExtra'] = 'NingunValor'
         else:
             pass
+
 #Para hacerle el merge a los diccionarios
 def merge(a, b, path=None):
     "merges b into a"
@@ -45,29 +60,26 @@ def merge(a, b, path=None):
             elif a[key] == b[key]:
                 pass # same leaf value
             else:
-                raise Exception('Conflict at %s' % '.'.join(path + [str(key)]))
+                pass
+                #raise Exception('Conflict at %s' % '.'.join(path + [str(key)]))
         else:
             a[key] = b[key]
     return a
 
+# En este caso, soup_cada_casa hace referencia al soup que se creará más adelante cuando
+# se itere por todas los links de las casas. 
+
+
 dict_all_casas = {}
-def dict_casas_info(soup_cada_casa, i_ = 0):
-    obj_dicc = soup_cada_casa.find('div',{'class':"b-leading-data-property u-flex-wrap"}).find_all(
-            'div',{'class':"b-leading-data-service"}) 
-    dict_casa_iter = {}
-    for iter_ in obj_dicc: #Para cada par de datos (q serían keys & values)
-        a = iter_.find_all('p')[0].text #Bótame el texto primero (key)
-        b = iter_.find_all('p')[1].text #Bótame el texto segundo (value)
-        dict_casa_iter[a] = b
-    global dict_all_casas
-    dict_all_casas['Casa'+str(i_)] = dict_casa_iter
-    return dict_all_casas    
-
-
+#La siguiente función se iterará por sobre cada casa (o link de casa)
+#Retornará un diccionario de diccionarios (Por eso creamos dos dict)
 dict_divs_info = {}
 def scrap_div_info(soup_cada_casa, o_ = 0): #Para cada casa, sacame esta info.
     direccion_ = soup_cada_casa.find('div',{'class': 'b-ubication'}).find_all('p')[0].text
-    anunciante_ = soup_cada_casa.find('div',{'class':'b-name-agent'}).find_all('p')[0].text
+    if soup_cada_casa.find('div',{'class':'b-name-agent'}) == None:
+        anunciante_ = 'No disponible'
+    else:
+        anunciante_ = soup_cada_casa.find('div',{'class':'b-name-agent'}).find_all('p')[0].text
     florito_ = soup_cada_casa.find('div',{'class':'b-section-content js-property-services'}).findNext('div').find('p').text
     fecha_pub = soup_cada_casa.find('div',{'class':'b-view-code'}).findNext('span').text
     precio = soup_cada_casa.find('p',{'class':'e-totalPrice'}).text
@@ -76,34 +88,36 @@ def scrap_div_info(soup_cada_casa, o_ = 0): #Para cada casa, sacame esta info.
     dict_SUB_divs_info = {'Direccion':direccion_,'Anunciante':anunciante_,'Descripcion_':florito_,
                           'Fecha_pub':fecha_pub, 'Precio': precio}
     dict_divs_info['Casa'+str(o_)] = dict_SUB_divs_info
-    fill_nan_vals_dict(dict_divs_info)
+    #fill_nan_vals_dict(dict_divs_info)
     return dict_divs_info
 
+#Nos retornará un dict de dicts, con los mismos keys pero diferentes values (diccionarios también)
 
-#Se esta reemplazando elm:section,a:features,lista_b:sub_feature
 dict_feature_all_casas = {} #Si pongo esto dentro del loop siempre va a crear uno nuevo.
 #Haré una función para obtener los ambientes de la casa.
 
-def obtain_features_to_dict(soup_cada_casa,n_=0 ):  #Debería poner el n_ afuera de la función para iterar luego?
-    obj_features_dicc = soup_cada_casa.find('section',{'class':'feature'})
-    if obj_features_dicc == None:
-        casa_interna_iterada = {}
-        casa_interna_iterada['NoTieneData'] = 'SinValor'
+def obtain_features_to_dict(soup_cada_casa,n_=0 ):  
+    obj_features_dicc = soup_cada_casa.find('section',{'class':'feature'}) #Entro al div grande sobre el que iteraré
+    casa_interna_iterada = {} #dict_3ro
+    if obj_features_dicc is None or len(obj_features_dicc) == 0:
+        ##Hacer para condominios (con lo de interbank)
+        casa_interna_iterada['EsCondominio'] = 'Si'
     else:
-        obj_features_dicc = obj_features_dicc.find_all('section') #Para cada casa selecciono su section
-        n_ += 1 #A lo mejor es importante el número de casa
-        casa_interna_iterada = {} #dict_3ro
-        for section in obj_features_dicc:
-            feature = section.find('h2').text #Este va a ser mi key de los servicios (features) que va a tener la data.
-            sub_feature = [lisst.text for lisst in section.find_all('li',{'class':'b-section-item'})] #Serán los values 
-            ##Entonces, segùn lo de arriba, para cada feature habrá una lista.
-            casa_interna_iterada[feature] = sub_feature #Agrega cada feature con sus respectiva lista al diccionario
+        obj_features_dicc2 = obj_features_dicc.find_all('section') #Para cada casa selecciono su section
+        if len(obj_features_dicc2) != 0:
+            for section in obj_features_dicc2:
+                feature = section.find('h2').text #Este va a ser mi key de los servicios (features) que va a tener la data.
+                sub_feature = [lisst.text for lisst in section.find_all('li',{'class':'b-section-item'})] #Serán los values 
+                ##Entonces, segùn lo de arriba, para cada feature habrá una lista.
+                casa_interna_iterada[feature] = sub_feature #Agrega cada feature con sus respectiva lista al diccionario
+        else:
+            pass #Agrego que no tiene data en features
     global dict_feature_all_casas #dict_2do
     dict_feature_all_casas['Casa'+str(n_)] = casa_interna_iterada #Mi diccionario de diccionarios {'Casa1:{'Servicios': [],...}
     fill_nan_vals_dict(dict_feature_all_casas)
     return dict_feature_all_casas #Me retorna el diccionario de diccionarios
-
 dict_property_details = {}
+
 def dict_property_info(soup_cada_casa, u_=0):
     global dict_property_details #A un dict de afuera
     obj_dicc2 = soup_cada_casa.find('div',{'class':'b-property-details u-flex-wrap'}).find_all(
@@ -117,13 +131,6 @@ def dict_property_info(soup_cada_casa, u_=0):
     dict_property_details['Casa'+str(u_)] = dict_casa_iter2
     
 ##Funcion General de scraping..............................
-
-### Esta es la función principal.
-#soup_list = [soup1,soup2,soup3]
-dict_all_casas = {} #dict_1ro
-dict_feature_all_casas = {} #dict_2do
-dict_property_details = {}
-
 def my_urbania_scrapper(all_internal_link):
     global dict_all_casas #dict_all_casas
     global dict_property_details
@@ -154,6 +161,10 @@ def my_urbania_scrapper(all_internal_link):
     final_df = pd.DataFrame.from_dict(final_final_dict,orient='index')
     final_df.to_csv('database_urbania.csv')
 
-
-
-my_urbania_scrapper(all_internal_link)
+### Esta es la función principal.
+#soup_list = [soup1,soup2,soup3]
+dict_all_casas = {} #dict_1ro
+dict_feature_all_casas = {} #dict_2do
+dict_property_details = {}
+dict_property_details = {}
+dict_divs_info={}
