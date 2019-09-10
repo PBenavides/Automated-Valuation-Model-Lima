@@ -13,7 +13,7 @@ pd.set_option('display.max_columns', None)
 #Llamaremos lista_links a la lista que contiene todas las páginas generales de Urbania
 
 lista_links = []
-for i in range(1,559):
+for i in range(1,582):
     link = 'https://urbania.pe/buscar/venta-de-casas?page='+str(i)
     lista_links.append(link)
 
@@ -140,7 +140,7 @@ def give_me_the_number(scr_list):
             pass
     return number_scr
 
-def get_me_long_and_lat(cada_soup, i = 0):
+def get_me_long_and_lat(cada_soup, a_ = 0):
     global long_lat_dict
     scr_list = cada_soup.find_all('script')
     number_scr = give_me_the_number(scr_list)
@@ -149,10 +149,11 @@ def get_me_long_and_lat(cada_soup, i = 0):
     long = scr_str[position+11:position+29]
     position2 = scr_str.find('latitud')
     lat = scr_str[position2+11:position2+29]
-    long_lat_dict['long'+str(i)] = long
-    long_lat_dict['lat'+str(i)] = lat
-long_lat_dict = {}
-##Funcion General de scraping..............................
+    dict_sub_info_long_lat = {'longitud': long, 'latitud' : lat} #Es un diccionario de sub información.
+    long_lat_dict['Casa' + str(a_)] = dict_sub_info_long_lat #Este tipo de objeto es el que nos va a ordenar la info.
+
+
+#Funcion General de scraping..............................
 def my_urbania_scrapper(all_internal_link):
     global dict_all_casas #dict_all_casas
     global dict_property_details
@@ -178,7 +179,7 @@ def my_urbania_scrapper(all_internal_link):
         except:
             pass
         try: 
-            get_me_long_and_lat(soup_cada_casa, i= i)
+            get_me_long_and_lat(soup_cada_casa, a_= i)
         except AttributeError:
             pass
     prefinal_dict = merge(dict_all_casas,dict_feature_all_casas)
@@ -195,3 +196,4 @@ dict_feature_all_casas = {} #dict_2do
 dict_property_details = {}
 dict_property_details = {}
 dict_divs_info={}
+long_lat_dict = {}
