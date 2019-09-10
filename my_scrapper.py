@@ -185,7 +185,7 @@ def my_urbania_scrapper(all_internal_link):
     final_dict = merge(prefinal_dict,dict_divs_info)
     final_final_dict = merge(final_dict, dict_property_details)
     final_3_dict = merge(final_final_dict, long_lat_dict)
-    final_df = pd.DataFrame.from_dict(final_final_dict,orient='index')
+    final_df = pd.DataFrame.from_dict(final_3_dict,orient='index')
     final_df.to_csv('database_urbania_w_long_lat.csv')
 
 ### Esta es la función principal.
