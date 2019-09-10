@@ -179,7 +179,7 @@ def my_urbania_scrapper(all_internal_link):
             pass
         try: 
             get_me_long_and_lat(soup_cada_casa, i= i)
-        except:
+        except AttributeError:
             pass
     prefinal_dict = merge(dict_all_casas,dict_feature_all_casas)
     final_dict = merge(prefinal_dict,dict_divs_info)
