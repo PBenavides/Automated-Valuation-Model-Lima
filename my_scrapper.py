@@ -129,13 +129,35 @@ def dict_property_info(soup_cada_casa, u_=0):
         dict_casa_iter2[key1] = value1 #Lo agrego al diccionario interno
     fill_nan_vals_dict(dict_casa_iter2)
     dict_property_details['Casa'+str(u_)] = dict_casa_iter2
-    
+
+##Acá voy a sacar los datos de longitud y latitud
+def give_me_the_number(scr_list):
+    for numb,script in enumerate(scr_list):
+        str_scr = str(script)
+        if str_scr.find('longitud') != -1:
+            number_scr = numb
+        else:
+            pass
+    return number_scr
+
+def get_me_long_and_lat(cada_soup, i = 0):
+    global long_lat_dict
+    scr_list = cada_soup.find_all('script')
+    number_scr = give_me_the_number(scr_list)
+    scr_str = str(cada_soup.find_all('script')[number_scr]) #Acá ya tengo ubicado mi string.
+    position = scr_str.find('longitud')
+    long = scr_str[position+11:position+29]
+    position2 = scr_str.find('latitud')
+    lat = scr_str[position2+11:position2+29]
+    long_lat_dict['long'+str(i)] = long
+    long_lat_dict['lat'+str(i)] = lat
+long_lat_dict = {}
 ##Funcion General de scraping..............................
 def my_urbania_scrapper(all_internal_link):
     global dict_all_casas #dict_all_casas
     global dict_property_details
     global dict_feature_all_casas #Creo q no es necesario hacerlo global? #dict_all_casas_2
-                #Para cada cuadro de información de cada casa
+    global long_lat_dict            #Para cada cuadro de información de cada casa
     for i,internal_link in tqdm(enumerate(all_internal_link)):
         response = requests.get(internal_link)
         soup_cada_casa = BeautifulSoup(response.text,"html.parser") #con esto ya no necesitaré listas.
@@ -155,11 +177,16 @@ def my_urbania_scrapper(all_internal_link):
             scrap_div_info(soup_cada_casa,o_=i) #Me lo bota en dict_divs_info
         except:
             pass
+        try: 
+            get_me_long_and_lat(soup_cada_casa, i= i)
+        except:
+            pass
     prefinal_dict = merge(dict_all_casas,dict_feature_all_casas)
     final_dict = merge(prefinal_dict,dict_divs_info)
     final_final_dict = merge(final_dict, dict_property_details)
+    final_3_dict = merge(final_final_dict, long_lat_dict)
     final_df = pd.DataFrame.from_dict(final_final_dict,orient='index')
-    final_df.to_csv('database_urbania.csv')
+    final_df.to_csv('database_urbania_w_long_lat.csv')
 
 ### Esta es la función principal.
 #soup_list = [soup1,soup2,soup3]
