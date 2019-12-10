@@ -3,8 +3,9 @@
 ## La data debe ser un pandas.Series para poder correr el modelo y predecir con ella.
 import pickle
 import pandas as pd
+import geohash2 as gh
 
-def encode_cats(data):
+def encoding_data(data):
 
     '''
     Esta función va a limpiar las variables que tengamos, es decir, 
@@ -17,14 +18,36 @@ def encode_cats(data):
         dict_distritos = pickle.load(handle)
 
     #Trabajare la data como un dataframe para poder transformarla con facilidad.
-    clean_data = pd.DataFrame(data,index=[0])
+    encoded_data = pd.DataFrame(data,index=[0])
+    
+    encoded_data.Distrito = encoded_data.Distrito.map(dict_distritos)
+    encoded_data.Provincia = encoded_data.Provincia.map(dict_provincias)
 
-    clean_data.Distrito = clean_data.Distrito.map(dict_distritos)
-    clean_data.Provincia = clean_data.Provincia.map(dict_provincias)
+    encoded_data.Distrito = pd.to_numeric(encoded_data.Distrito)
+    encoded_data.Provincia = pd.to_numeric(encoded_data.Provincia)
 
-    clean_data.Distrito = pd.to_numeric(clean_data.Distrito)
-    clean_data.Provincia = pd.to_numeric(clean_data.Provincia)
-    return clean_data
+    return encoded_data
+
+def get_longitude_latitude():
+    
+    return 0
+
+def geohashing_data(data):
+    encoded_data['geohash5'] = gh.encode(encoded_data.latitud, encoded_data.longitud, precision = 5)
+    
+    encoded_data['geohash6'] = gh.encode(encoded_data.latitud, encoded_data.longitud, precision = 6)
+    
+    return 0 
+
+def feature_engineering(prefinal_data):
+
+    pitucos = ['LaMolina','Asia','SantiagoDeSurco','SanBorja','Miraflores','SanIsidro','Barranco','SanBartolo',
+           'Mancora']
+    cuasi_pitucos = ['Lince','JesusMaria','SanMiguel','Chaclacayo','Brenia','Ate','LaPerla']
+    prefinal_data['grupo_dist'] = 'No_es_pituco'
+    prefinal_data.loc[prefinal_data['Distrito'].isin(pitucos),'grupo_dist'] = 'Es_pituco'
+    prefinal_data.loc[prefinal_data['Distrito'].isin(cuasi_pitucos)],'grupo_dist'] = 'Es_cuasi_pituco'
+    return 0 
 
 def make_prediction(data):
     '''
