@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 """
 Este es un scraper para la página Urbania.pe
-La información obtenida se usará con fines meramente académicos. 
+La información obtenida podrá será usada con fines meramente académicos.
+Cualquier petición de de la compañia para eliminar este script deberá
+ser enviada a fob534154@gmail.com  
 Hecho por @PBenavides
 """
+
 import pandas as pd
 from bs4 import BeautifulSoup
 from tqdm import tqdm
