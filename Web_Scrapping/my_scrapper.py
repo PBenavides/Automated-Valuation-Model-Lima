@@ -11,12 +11,11 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 import requests
-pd.set_option('display.max_columns', None)
 
 #Llamaremos lista_links a la lista que contiene todas las páginas generales de Urbania
 
 lista_links = []
-for i in range(1,582):
+for i in range(1,4):
     link = 'https://urbania.pe/buscar/venta-de-casas?page='+str(i)
     lista_links.append(link)
 
@@ -200,3 +199,9 @@ dict_property_details = {}
 dict_property_details = {}
 dict_divs_info={}
 long_lat_dict = {}
+
+def run_scraper():
+    all_internal_links = extract_all_internal_links(lista_links)
+    my_urbania_scrapper(all_internal_links)
+
+run_scraper()
