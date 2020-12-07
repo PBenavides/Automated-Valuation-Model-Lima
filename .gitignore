@@ -132,3 +132,6 @@ dmypy.json
 .xlsx
 .csv
 .ipynb
+
+# Key Containers
+local_settings.py
