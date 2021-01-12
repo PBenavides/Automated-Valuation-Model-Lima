@@ -1,0 +1,9 @@
+Project_details: 
+  training_file: input/train.csv
+  name : Titanic
+Preprocessing:
+  cols_to_drop : ['IdPasajero','Name','Ticket','Cabin']
+  threshold_outliers : .95
+  encoding_technique : 'dummy'
+Model_output : models/
+Target_name : Sobrevivio
