@@ -2,11 +2,11 @@
 #It's made also to try different models with different hyperparameters
 
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LinearRegression, Lasso, ElasticNet
 
-models = {"decision_tree_gini": DecisionTreeClassifier(
-    criterion="gini"
+
+models = {"linear_reg": LinearRegression(
     ),
-    "decision_tree_entropy" : DecisionTreeClassifier(
-        criterion="entropy"
+    "lasso_reg" : Lasso(
     )
         }

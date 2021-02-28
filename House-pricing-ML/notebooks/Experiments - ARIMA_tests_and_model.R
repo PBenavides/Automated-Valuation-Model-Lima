@@ -3,7 +3,7 @@ library(tseries)
 library(reshape2)
 
 #Importa datos
-lima_series <- read_excel("RScripts/data/serie_san isidro.xlsx")
+lima_series <- read_excel(".input/series_bcrp/lima_serie.xlsx")
 
 #Mejor lo leemos como ts y data.frame (posible bug pa otra serie)
 df <- ts(data.frame(precios=lima_series[0:79,]$Precio_por_m2), start=c(1998,1), frequency=4)
@@ -13,7 +13,6 @@ df <- ts(data.frame(precios=lima_series[0:79,]$Precio_por_m2), start=c(1998,1), 
 #Ploteamos la serie
 plot(df)
 
-
 #Boxplot para cada quarter.
 boxplot(df_pct ~ cycle(df))
 
@@ -21,7 +20,6 @@ boxplot(df_pct ~ cycle(df))
 #There is no trend.
 df.desc = decompose(df)
 plot(df, xlab='Quarter')
-
 
 #Unit-root tests...
 #Aumented Dickey Fuller:
