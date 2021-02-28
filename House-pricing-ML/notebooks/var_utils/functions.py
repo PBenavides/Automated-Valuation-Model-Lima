@@ -85,7 +85,7 @@ def invert_transformation(df_train, df_forecast, second_diff=False):
         df_fc[str(col)+'_forecast'] = df_train[col].iloc[-1] + df_fc[str(col)+'_1d'].cumsum()
     return df_fc
 
-def forecast_accuracy(forecast, actual):
+def forecasting_metric(forecast, actual, verbose = False):
     mape = np.mean(np.abs(forecast - actual)/np.abs(actual))  # MAPE
     me = np.mean(forecast - actual)             # ME
     mae = np.mean(np.abs(forecast - actual))    # MAE
@@ -97,5 +97,16 @@ def forecast_accuracy(forecast, actual):
     maxs = np.amax(np.hstack([forecast[:,None], 
                               actual[:,None]]), axis=1)
     minmax = 1 - np.mean(mins/maxs)             # minmax
-    return({'mape':mape, 'me':me, 'mae': mae, 
-            'mpe': mpe, 'rmse':rmse, 'corr':corr, 'minmax':minmax})
+
+    metrics_dict = {'mape':mape, 'me':me, 'mae': mae, 
+                'mpe': mpe, 'rmse':rmse, 'corr':corr, 'minmax':minmax}
+
+    if verbose == False:
+       return metrics_dict
+    elif verbose == True:
+        print("-" * 27)
+        print(f"| {'Métrica '} | {'Valor: '} |")
+        print("-" * 27)
+        for metric, value in metrics_dict.items():
+            print(f"| {metric} | {value}     |")
+        return metrics_dict 

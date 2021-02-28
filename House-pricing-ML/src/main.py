@@ -9,7 +9,6 @@ import yaml
 import logging 
 
 from sklearn.metrics import accuracy_score
-from data import preprocessing_data
 
 import model_dispatcher
 import config
