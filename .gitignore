@@ -135,3 +135,9 @@ dmypy.json
 
 # Key Containers
 local_settings.py
+
+#Files
+mlruns
+
+#logs
+.logs
