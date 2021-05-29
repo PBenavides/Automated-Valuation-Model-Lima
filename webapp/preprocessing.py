@@ -21,11 +21,13 @@ class Preprocessing_Pipeline():
         #Discretization
         dataframe['Area_constr_cat'] = self.discretizer.transform([dataframe['Area_constr'].values])[0][0]
 
+        #Feature Engineering
+        dataframe['areas_diff'] = dataframe['Area_total'] - dataframe['Area_constr']
+
         #Encoding
         for col in dataframe.select_dtypes('object'):
             le = self.dict_encoder[col]
             dataframe[col] = le.transform(dataframe[col])
-        print('SUCCESFUL!', type(dataframe), '\n', dataframe)
 
         return dataframe
 

@@ -4,10 +4,10 @@ def load_models():
     """
     TO DO: Sistematizar el path de los modelos.
     """
-    with open('artifacts/models/lgbm.pkl','rb') as handle:
+    with open('artifacts/models/lgbm_base.pkl','rb') as handle:
         lgbm_model = pickle.load(handle)
 
-    with open('artifacts/models/random_forest.pkl','rb') as handle:
+    with open('artifacts/models/rf_base.pkl','rb') as handle:
         rf_model = pickle.load(handle)
 
     return lgbm_model, rf_model
