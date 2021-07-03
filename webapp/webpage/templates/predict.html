@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Valuation Page
+{% endblock %}
+
+{% block content %}
+<body class = "text-left">
+    <div class = "container" >
+    <h1 class = "text-center">
+        Insert your data Here:
+    </h1>
+    <form action = "{{url_for('predict')}}" method="POST"  style="color:black float-left"> <!-- El color es el de la letra-->
+        {{form.csrf_token}}
+        
+        {{ form.Barrio.label()}}
+        {{ form.Barrio(class = "form-control")}}
+
+        {{ form.Ciudad.label()}}
+        {{ form.Ciudad(class = "form-control")}}
+
+        {{ form.Area_total.label()}}
+        {{ form.Area_total(class = "form-control", placeholder="Area Totality")}}
+
+        {{ form.Area_constr.label()}}
+        {{ form.Area_constr(class = "form-control", placeholder="Constructed Area")}}
+
+        {{ form.NroBanios.label()}}
+        {{ form.NroBanios(class = "form-control")}}
+
+        {{ form.Dormitorios.label()}}
+        {{ form.Dormitorios(class = "form-control")}}
+
+        {{ form.Antiguedad.label()}}
+        {{ form.Antiguedad(class = "form-control")}}
+
+        {{ form.Cocheras.label()}}
+        {{ form.Cocheras(class = "form-control")}}
+
+        {{ form.Latitud.label()}}
+        {{ form.Latitud(class = "form-control", placeholder="Insert latitude")}}
+
+        {{ form.Longitud.label()}}
+        {{ form.Longitud(class = "form-control", placeholder="Insert latitude")}}
+
+        {{ form.submit()}}
+
+    </form>
+        
+        
+        
+    </div>
+    
+</body>
+{% endblock %}

@@ -1,4 +1,4 @@
-from utils import load_discretizer, load_encoder
+from .utils import load_discretizer, load_encoder
 import pandas as pd
 
 class Preprocessing_Pipeline():
@@ -11,11 +11,19 @@ class Preprocessing_Pipeline():
     """
 
     def __init__(self, data_dict):
-        self.data  = data_dict
+
+        if 'MONEDA' in data_dict.keys(): pass
+        else:
+            data_dict['MONEDA'] = 1
+        
+        self.features_model = ['Barrio','Ciudad','Area_total',
+        'NroBanios','Area_constr','MONEDA','Dormitorios','Antiguedad','Cocheras']
+        self.data  = {feature: data_dict[feature] for feature in self.features_model}
         self.discretizer = load_discretizer()
         self.dict_encoder = load_encoder()
 
     def transform(self):
+        
         dataframe = pd.DataFrame(data={0:self.data}).T.infer_objects()
 
         #Discretization
@@ -23,6 +31,9 @@ class Preprocessing_Pipeline():
 
         #Feature Engineering
         dataframe['areas_diff'] = dataframe['Area_total'] - dataframe['Area_constr']
+
+        for col in ['Antiguedad','Cocheras','Dormitorios','NroBanios']:
+            dataframe[col] = dataframe[col].astype('float32')
 
         #Encoding
         for col in dataframe.select_dtypes('object'):
