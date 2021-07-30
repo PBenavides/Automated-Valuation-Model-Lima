@@ -4,7 +4,7 @@ This is a small data-store which contains:
 
 - Raw scraped - Housing offers data: casas_2019 & casas_2020
 
-- Output data for each Delivered Notebook: YYYY\_Notebook0*\_{TYPE}_output.csv
+- Output data for each Delivered Notebook: YYYY_Notebook0*\_{TYPE?}_output.csv
 
 - GeoShape Files: Utility data for Spatial Plotting.
 

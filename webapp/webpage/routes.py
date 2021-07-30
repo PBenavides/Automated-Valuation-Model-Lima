@@ -37,6 +37,7 @@ def predict():
         prediction_rf = rf_model.predict(dataframe)
         prediction_rf = pd.Series(prediction_rf).to_json(orient='values')
 
+        print("lgbm-pred:", prediction_lgbm)
         return render_template('success.html', prediction_lgbm = prediction_lgbm[0], prediction_rf=prediction_rf[0])
     else:
         return render_template('predict.html', form = form)
