@@ -14,7 +14,10 @@ This notebook uses Spatial Analysis in order to take advantage of the coordinate
 - Local Spatial Autocorrelation test validates the well-known hypothesis that Lima is a centric city since the clusters are spread out around the center of the city.
 
 You could also see Choropleths and other exploration images on [Exploratory Data Analysis Notebook](https://github.com/PBenavides/House_pricing_Lima/blob/b681c9cd0813c1a79913c5636ed17a7c95689f17/notebooks/Experiments/Exploratory%20Spatial%20Data%20Analysis.ipynb)
-![Imagen1](https://ibb.co/Tb82bCP)
+
+Choropleth
+
+![Image](https://ibb.co/Tb82bCP)
 
 
 # About the Machine Learning Model
