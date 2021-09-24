@@ -15,9 +15,13 @@ This notebook uses Spatial Analysis in order to take advantage of the coordinate
 
 You could also see Choropleths and other exploration images on [Exploratory Data Analysis Notebook](https://github.com/PBenavides/House_pricing_Lima/blob/b681c9cd0813c1a79913c5636ed17a7c95689f17/notebooks/Experiments/Exploratory%20Spatial%20Data%20Analysis.ipynb)
 
-Choropleth
+#### Choropleth
 
-![Image](https://ibb.co/Tb82bCP)
+![choropleth](imgs/Constucted_area_choropleth.JPG)
+
+#### Moran Plot:
+![Moran Plot](imgs/moran_plot.JPG)
+
 
 
 # About the Machine Learning Model
@@ -33,8 +37,14 @@ For the deploynment,
 - [Flask] - As a Backend. (API DONE, form interface in progress) 
 - [Heroku] - Server app (In progress)
 
+## Architecture
+In progress
+![Architecture](imgs/Prod_architecture.JPG)
+
+
+
 ## License
 
 MIT
 
-**Free Software, Hell Yeah!**
+
