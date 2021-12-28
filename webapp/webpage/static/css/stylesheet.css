@@ -1,4 +1,4 @@
-*,
+* ,
 *::after,
 *::before{
     margin: 0;
@@ -89,10 +89,83 @@ body{
 }
 
 .form-obj {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     position: relative;
-    left: 30%;
-    width: 40%;
-    padding: 2.5%;
-    background-color: #ffffff;;
+    padding: 20px;
+    background-color: #ffffff;
 }
 
+#submit {
+    border-radius: 15px;
+    width: 25%;
+    height: 30%;
+    margin: 15px;
+    justify-content: flex-end;
+    padding: 5px 15px;
+}
+
+form > div{
+    position: relative;
+    text-align: right;
+}
+
+#submit:hover {
+    background-color: rgb(75, 99, 150);
+    color: #fff;
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.table-container {
+    position:relative;
+    display: flex;
+    background:rgb(75, 99, 150);
+    height: 300px;
+    margin: 40px;
+    border-radius: 15px;
+}
+
+.table-class {
+    position: absolute;
+    padding-left: 48%;
+}
+
+.table-class > a {
+    position: absolute;
+    justify-content: flex-end;
+
+}
+
+.btn-link {
+    color: seashell;
+}
+
+.btn-link:hover {
+    color:snow
+}
+
+.div-container {
+    position: relative;
+    height: 300px;
+    width: 300px;
+    z-index: 5;
+    justify-content: space-between;
+}
+
+.inside-table {
+    position: absolute;
+}
+
+.table-img {
+    position: absolute;
+    height: 280px;
+    width: 280px;
+    z-index: 4;
+    justify-content: space-between;
+}
+
+.container-img {
+    padding-left: 25px;
+    padding-top: 10px;
+}

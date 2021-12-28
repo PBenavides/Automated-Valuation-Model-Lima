@@ -17,7 +17,6 @@ class ValuationForm(FlaskForm):
     Barrio = SelectField(label='Barrio', choices=[(elem,elem) for elem in dict_encoders_list['Barrio']])
     Ciudad = SelectField(label='Ciudad', choices = [(elem,elem) for elem in dict_encoders_list['Ciudad']])
 
-
     Area_total = IntegerField(label='Total Area')
 
     Area_constr = IntegerField(label='Constructed Area')

@@ -18,7 +18,7 @@ def contact():
 def predict():
 
     form = ValuationForm(request.form)
-
+    
     if form.validate_on_submit():
 
         data = form.data #es un dict
@@ -38,9 +38,12 @@ def predict():
         prediction_rf = pd.Series(prediction_rf).to_json(orient='values')
 
         print("lgbm-pred:", prediction_lgbm)
-        return render_template('success.html', prediction_lgbm = prediction_lgbm[0], prediction_rf=prediction_rf[0])
-    else:
-        return render_template('predict.html', form = form)
+        print("rf-pred", prediction_rf)
+        
+        return render_template('success.html', prediction_lgbm = prediction_lgbm,\
+            prediction_rf=prediction_rf)
+
+    return render_template('predict.html', form = form)
 
 @app.route('/api-predict',methods=['POST','GET'])
 def api_predict():

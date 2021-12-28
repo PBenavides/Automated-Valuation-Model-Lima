@@ -3,21 +3,20 @@
 Contact
 {% endblock %}
 {% block content %}
-<div>
-    <table style="border:1px solid black">
-        <tr>
-          <th>GitHub</th>
-          <th>LinkedIn</th>
-          <th>Email</th>
-          <th>Portfolio</th> 
-        </tr>
-        <tr>
-          <td>https://github.com/PBenavides</td>
-          <td>https://www.linkedin.com/in/pablo-benavides-/</td>
-          <td>pablo.benavidesurbano@gmail.com</td>
-          <td>link-portfolio</td>
-        </tr>
-      </table>
-    </div>
 
+<div class="container">
+  <div class="table-container">
+    <div class="container-img">
+      <img class="table-img" src="{{url_for('static', filename='imgs/contact.jpg')}}"/>
+    </div>
+      <div class="table-class">
+          <div class="inside-table">
+            <a href="https://github.com/PBenavides" class="btn-link">GitHub</a><br>
+            <a href="https://github.com/PBenavides" class="btn-link">Linkedin</a>
+            <p href="https://github.com/PBenavides" class="btn-link">pablo.benavidesurbano@gmail.com</p>
+            <a href="https://github.com/PBenavides" class="btn-link">Portfolio</a> 
+          </div>
+      </div>
+  </div>
+</div>
 {% endblock %}

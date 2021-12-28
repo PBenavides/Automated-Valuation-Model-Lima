@@ -8,8 +8,43 @@ Home Page
 
 {% block content %}
 
-<h1> Home Page</h1>
+<main role = "main">
+    <div class = "container">
+        <div class = "sub-container">
+            <div class = "bb-section-alignful container-full">
+                <div class = "bb-container container-full">
+                    <div class = "wp-block-cover alignfull hero">
 
+                        <img loading="lazy" width="1440" height="516" class="wp-block-cover__image-background wp-image-38"
+                        alt src="{{url_for('static', filename='imgs/fondo-lima-4.jpg')}}" style="object-position: 75% 50%"
+                        data-object-fit="cover" data-object-position="75% 50%">
+
+                        <div class="wp-block-cover__inner-container">
+                            <div class = "bb-section has-text-color bb-pt-10 bb-pb-10 alignfull" style="color: rgb(0,0,0)">
+                            </div>
+                            <div class="bb-container container">
+
+                                <h1 id="h-title-inside-image">
+                                    <div class ="title-image" style="width: max-content; margin: auto">
+                                    
+                                    Automated Valuation Model
+                                    </div>
+                                    <br>
+                                    <small>ML Model based on Spatial Features</small>
+                                    <br>
+                                    <small>Lima - Perú</small>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class = "bb-section has-background has-light-background-color bb-pt-6 alignfull">
+        </div>
+    </div>
+</main>
 {% endblock %}
 
 

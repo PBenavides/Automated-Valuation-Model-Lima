@@ -6,7 +6,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-      <link rel="stylesheet" href="styles/stylesheet.css" />
+      <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/stylesheet.css')}}" />
       <title>
           {% block title %}
           {% endblock %}
@@ -41,46 +41,13 @@
         
         </div>
     </header>
-    
-    
     </nav>
-    <main role = "main">
-        <div class = "container">
-            <div class = "bb-section-alignful container-full">
-                <div class = "bb-container container-full">
-                    <div class = "wp-block-cover alignfull hero" style="min-height:516px">
 
-                        <img loading="lazy" width="1440" height="516" class="wp-block-cover__image-background wp-image-38"
-                        alt src="imgs/fondo-lima-4.jpg" style="object-position: 75% 50%"
-                        data-object-fit="cover" data-object-position="75% 50%">
+    <body class = "text-left">
+        {% block content %}
 
-                        <div class="wp-block-cover__inner-container">
-                            <div class = "bb-section has-text-color bb-pt-10 bb-pb-10 alignfull" style="color: rgb(0,0,0)">
-                            </div>
-                            <div class="bb-container container">
+        {% endblock %}
 
-                                <h1 id="h-title-inside-image">
-                                    <div class ="title-image" style="background-color:#131304; width: max-content; margin: auto">
-                                    
-                                    Automated Valuation Model
-                                    </div>
-                                    <br>
-                                    <small style="background-color:#131304">ML Model based on Spatial Features</small>
-                                    <br>
-                                    <small style="background-color:#131304">Lima - Perú</small>
-                                </h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-            <div class = "bb-section has-background has-light-background-color bb-pt-6 alignfull"></div>
-        </div>
-    </main>
-      <!-- Optional JavaScript -->
-      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-      
    </body>
    <style>
    </style>
