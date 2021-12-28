@@ -1,10 +1,15 @@
-from webpage.forms import ValuationForm
-from webpage import app, lgbm_model, rf_model
 from flask import render_template, request, jsonify
-from webpage.preprocessing import Preprocessing_Pipeline
-from webpage.utils import load_models
+print('submodules->')
+from app.forms import ValuationForm
+from app.preprocessing import Preprocessing_Pipeline
+from app.utils import load_models
+print('app->')
+from app import app
 import pandas as pd
 import time
+
+model_dict = load_models()
+
 
 @app.route('/')
 def main():
@@ -29,6 +34,9 @@ def predict():
         #Pipeline
         dataframe = Preprocessing_Pipeline(data_dict = data).transform()
         
+        lgbm_model = model_dict['lgbm_base']
+        rf_model = model_dict['rf_base']
+
         #Prediction
         prediction_lgbm = lgbm_model.predict(dataframe)
         #Como los arrays no son jsonifybles:
@@ -58,6 +66,9 @@ def api_predict():
         #current_app.logger.info('Ha sido recibida un request POST {}'.format(data))
         #Validar datos.
         
+        lgbm_model = model_dict['lgbm_base']
+        rf_model = model_dict['rf_base']
+
         #Pipeline
         dataframe = Preprocessing_Pipeline(data_dict = data).transform()
         
