@@ -1,3 +1,6 @@
-from app import app
+from app import create_app
+from app.utils import load_models
 
-app.config['SECRET_KEY']
+model_dict = load_models()
+
+app = create_app(model_dict)

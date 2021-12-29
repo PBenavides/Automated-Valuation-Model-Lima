@@ -1,25 +1,12 @@
-from flask import render_template, request, jsonify
-print('submodules->')
-from app.forms import ValuationForm
-from app.preprocessing import Preprocessing_Pipeline
-from app.utils import load_models
-print('app->')
-from app import app
+from flask import render_template, jsonify, request, current_app
+from app.inference.forms import ValuationForm
+from app.inference import bp
+from app.inference.preprocessing import Preprocessing_Pipeline
+
 import pandas as pd
 import time
 
-model_dict = load_models()
-
-
-@app.route('/')
-def main():
-    return render_template('home.html')
-
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')
-
-@app.route('/predict', methods=['POST','GET'])
+@bp.route('/predict', methods=['POST','GET'])
 def predict():
 
     form = ValuationForm(request.form)
@@ -34,8 +21,8 @@ def predict():
         #Pipeline
         dataframe = Preprocessing_Pipeline(data_dict = data).transform()
         
-        lgbm_model = model_dict['lgbm_base']
-        rf_model = model_dict['rf_base']
+        lgbm_model = current_app.config['model_dict']['lgbm_base']
+        rf_model = current_app.config['model_dict']['rf_base']
 
         #Prediction
         prediction_lgbm = lgbm_model.predict(dataframe)
@@ -53,7 +40,7 @@ def predict():
 
     return render_template('predict.html', form = form)
 
-@app.route('/api-predict',methods=['POST','GET'])
+@bp.route('/api-predict',methods=['POST','GET'])
 def api_predict():
 
     if request.method == 'GET':
@@ -66,8 +53,8 @@ def api_predict():
         #current_app.logger.info('Ha sido recibida un request POST {}'.format(data))
         #Validar datos.
         
-        lgbm_model = model_dict['lgbm_base']
-        rf_model = model_dict['rf_base']
+        lgbm_model = current_app.config.model_dict['lgbm_base']
+        rf_model = current_app.config.model_dict['rf_base']
 
         #Pipeline
         dataframe = Preprocessing_Pipeline(data_dict = data).transform()
