@@ -1,4 +1,4 @@
-from .utils import load_discretizer, load_encoder
+from app.utils import load_discretizer, load_encoder
 import pandas as pd
 
 class Preprocessing_Pipeline():
@@ -9,7 +9,6 @@ class Preprocessing_Pipeline():
     El input se espera que sea solo uno porque vendrá desde un formulario.
     Este input se aceptará como diccionario.
     """
-
     def __init__(self, data_dict):
 
         if 'MONEDA' in data_dict.keys(): pass

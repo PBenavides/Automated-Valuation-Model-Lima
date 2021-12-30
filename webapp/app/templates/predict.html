@@ -12,7 +12,7 @@ Valuation Page
             Valuation Form Request
             </h1>
             <div class = "form-container">
-                <form class="form-obj" action = "{{url_for('predict')}}" method="POST"  > <!-- El color es el de la letra-->
+                <form class="form-obj" action = "{{url_for('inference.predict')}}" method="POST"  > <!-- El color es el de la letra-->
                     {{form.csrf_token}}
                             
                     {{ form.Barrio.label()}}

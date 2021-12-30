@@ -1,12 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, FloatField, SelectField
 from wtforms.widgets.core import Select
-from webpage.utils import dict_encoder_classes
+from app.utils import dict_encoder_classes
 
 """
 TO DO:
 - importar los choices desde el .pkl. 
-- Agregar Validators
+- Agregar Validators.
 """
 dict_encoders_list = dict_encoder_classes()
 

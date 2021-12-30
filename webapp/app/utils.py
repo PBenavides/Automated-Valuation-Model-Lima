@@ -1,32 +1,41 @@
 import pickle
+import os
+
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODELS_DIR = os.path.join(os.path.join(BASE_DIR, 'artifacts'),'models')
+ARTIFACTS_DIR = os.path.join(BASE_DIR,'artifacts')
 
 def load_models():
+    """LOAD MODELS FROM MODELS FILE
     """
-    
-    """
-    with open('webpage/artifacts/models/lgbm_base.pkl','rb') as handle:
-        lgbm_model = pickle.load(handle)
+    MODELS_LIST = ['lgbm_base','rf_base']
+    model_dict = dict()
 
-    with open('webpage/artifacts/models/rf_base.pkl','rb') as handle:
-        rf_model = pickle.load(handle)
-
-    return lgbm_model, rf_model
+    for model in MODELS_LIST:
+        
+        with open(os.path.join(MODELS_DIR, model + '.pkl'), 'rb') as handle:
+            model_dict[model] = pickle.load(handle)
+        
+    return model_dict
 
 def load_encoder():
     """
     dict_encoder: contendrá todos los encoders con sus respectivos nombres.
     """
 
-    with open('webpage/artifacts/label_encoder_dict.pkl','rb') as handle:
+    ENCODER_NAME = 'label_encoder_dict'
+    with open(os.path.join(ARTIFACTS_DIR, ENCODER_NAME + '.pkl'), 'rb') as handle:
         dict_encoder = pickle.load(handle)
-    
-    #Validar.
 
     return dict_encoder
 
 def load_discretizer():
 
-    with open('webpage/artifacts/discretizer.pkl','rb') as handle:
+    DISCRETIZER_NAME = 'discretizer'
+    
+
+    with open(os.path.join(ARTIFACTS_DIR, DISCRETIZER_NAME + '.pkl'), 'rb') as handle:
         discretizer = pickle.load(handle)
     #Validate
         return discretizer

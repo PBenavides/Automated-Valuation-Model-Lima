@@ -15,7 +15,7 @@
    <body>
     <header id="header" class="top">
     <nav class="navbar navbar-expand-md navbar-dar bg-dark">
-        <a class="navbar-brand" href="{{url_for('main')}}"> Automate Valuation Model </a>
+        <a class="navbar-brand" href="{{url_for('main.main')}}"> Automate Valuation Model </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -26,7 +26,7 @@
                     <a class="nav-link" href="https://github.com/PBenavides/House_pricing_Lima"> GitHub Repo </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('predict')}}">Valuate</a>
+                    <a class="nav-link" href="{{url_for('inference.predict')}}">Valuate</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="https://pbenavides.github.io/post/chapter-1/"> Article</a>
@@ -35,7 +35,7 @@
 
             <ul class="navbar-nav">
                 <li class = "nav-item">
-                    <a class = "nav-link" href="{{url_for('contact')}}"> Contact </a>
+                    <a class = "nav-link" href="{{url_for('main.contact')}}"> Contact </a>
                 </li>
             </ul>
         

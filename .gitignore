@@ -109,6 +109,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+webapp/avm/
+webapp/.vscode/
 
 # Spyder project settings
 .spyderproject
@@ -141,3 +143,4 @@ mlruns
 
 #logs
 .logs
+webapp/log.logs
