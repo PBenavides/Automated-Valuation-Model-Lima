@@ -12,7 +12,7 @@ def predict():
     form = ValuationForm(request.form)
     
     if form.validate_on_submit():
-
+        current_app.logger.info('Form was submitted by: {}'.format(request.remote_addr))
         data = form.data #es un dict
         
         #current_app.logger.info('Ha sido recibida un request POST {}'.format(data))
@@ -32,8 +32,8 @@ def predict():
         prediction_rf = rf_model.predict(dataframe)
         prediction_rf = pd.Series(prediction_rf).to_json(orient='values')
 
-        print("lgbm-pred:", prediction_lgbm)
-        print("rf-pred", prediction_rf)
+        current_app.logger.info('lgbm-pred: {}'.format(prediction_lgbm))
+        current_app.logger.info('rf-pred: {}'.format(prediction_rf))
         
         return render_template('success.html', prediction_lgbm = prediction_lgbm,\
             prediction_rf=prediction_rf)

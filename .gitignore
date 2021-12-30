@@ -143,3 +143,4 @@ mlruns
 
 #logs
 .logs
+webapp/log.logs

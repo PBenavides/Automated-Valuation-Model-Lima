@@ -1,6 +1,7 @@
 import pickle
 import os
 
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODELS_DIR = os.path.join(os.path.join(BASE_DIR, 'artifacts'),'models')
 ARTIFACTS_DIR = os.path.join(BASE_DIR,'artifacts')
@@ -12,9 +13,10 @@ def load_models():
     model_dict = dict()
 
     for model in MODELS_LIST:
+        
         with open(os.path.join(MODELS_DIR, model + '.pkl'), 'rb') as handle:
             model_dict[model] = pickle.load(handle)
-
+        
     return model_dict
 
 def load_encoder():

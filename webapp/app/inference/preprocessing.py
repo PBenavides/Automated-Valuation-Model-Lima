@@ -1,5 +1,4 @@
 from app.utils import load_discretizer, load_encoder
-from flask import current_app
 import pandas as pd
 
 class Preprocessing_Pipeline():
