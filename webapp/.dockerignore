@@ -1,0 +1,5 @@
+#Ignore files
+avm
+.vscode
+.ipynb_checkpoints
+log.logs
