@@ -5,10 +5,12 @@ Results
 {% endblock %}
 
 {% block content %}
+<div class="results-container">
 <h1> Result</h1>
 <h2> For LightGBM: {{prediction_lgbm}} per square meter </h2> </br>
 
 <h2>{{random_str}}</h2>
 <h2> For Random Forest: {{prediction_rf}} per square meter</h2>
 
+</div>
 {% endblock %}

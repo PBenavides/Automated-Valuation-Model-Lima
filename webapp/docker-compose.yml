@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    image: housepricing_lima
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/usr/src
